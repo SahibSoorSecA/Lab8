@@ -5,6 +5,19 @@
   </head>
   <body>
     <h1>FETCH API LAB</h1>
-    <div id=""></div>
+    <div id="postData"><em>Loading data...</em></div>
+    <div id="postData2"><em>Loading data...</em></div>
+
+    <script>
+      fetch('https://italian-jokes.vercel.app/')
+              .then(Response => response.json())
+              .then(data => {
+                  console.log(data):data
+                  document.getElementById('postData').textContent = JSON.stringify(data);
+                  document.getElementById('postData2')textContent = JSON.stringify(data.title);
+
+              })
+          .catch(error => console.error('error fetching data:', error))
+    </script>
   </body>
 </html>
