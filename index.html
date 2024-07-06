@@ -1,23 +1,39 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>API LAB 8</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <h1>FETCH API LAB</h1>
-    <div id="postData"><em>Loading data...</em></div>
-    <div id="postData2"><em>Loading data...</em></div>
+    <div id="jokeData"><em>Loading data...</em></div>
+    <button id="fetchJoke">Click here to laugh!</button>
 
     <script>
-      fetch('https://italian-jokes.vercel.app/')
-              .then(Response => response.json())
-              .then(data => {
-                  console.log(data):data
-                  document.getElementById('postData').textContent = JSON.stringify(data);
-                  document.getElementById('postData2')textContent = JSON.stringify(data.title);
+      // Fetch data from the API
+      const fetchJoke = async () => {
+        try {
+          const request = await fetch(
+            "https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,racist,sexist,explicit&type=single"
+          );
+          if (!request.ok) {
+            throw new Error(`HTTP error! Status: ${request.status}`);
+          }
+          const response = await request.json();
+          const joke = response.joke;
+          const jokeData = document.getElementById("jokeData");
+          jokeData.textContent = joke;
+        } catch (error) {
+          console.error(error);
+          const jokeData = document.getElementById("jokeData");
+          jokeData.textContent = "Failed to fetch joke :(";
+        }
+      };
 
-              })
-          .catch(error => console.error('error fetching data:', error))
+      document.getElementById("fetchJoke").addEventListener("click", fetchJoke);
+      fetchJoke();
     </script>
   </body>
 </html>
